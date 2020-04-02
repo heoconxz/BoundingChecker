@@ -24,7 +24,7 @@ namespace BoundingChecker
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private int frame;
+        private int frame = 1;
 
         public int Frame
         {
@@ -34,8 +34,11 @@ namespace BoundingChecker
             }
             set
             {
+                if (value < 1 || value >= Images.Count)
+                    return;
                 frame = value;
                 OnPropertyChanged();
+                UpdateImage();
             }
         }
 
@@ -45,10 +48,10 @@ namespace BoundingChecker
 
         public MainWindow()
         {
-            Frame = 1;
             Offset = 10;
             InitializeComponent();
             LoadData(null, null);
+            Frame = 1;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -68,6 +71,15 @@ namespace BoundingChecker
                 boundingImage.XmlOut.Load(System.IO.Path.Combine(@".\Output", System.IO.Path.GetFileNameWithoutExtension(filePath) + ".xml"));
                 Images.Add(boundingImage);
             }
+        }
+
+        private void UpdateImage()
+        {
+            var image = Images[Frame - 1];
+            InputImg.Source = new BitmapImage(new Uri(image.Path, UriKind.Relative));
+            OutputImg.Source = new BitmapImage(new Uri(image.Path, UriKind.Relative));
+            var result = image.GetResult(Offset);
+            resultGrid.DataContext = result;
         }
 
         private void NextFrame(object sender, RoutedEventArgs e)

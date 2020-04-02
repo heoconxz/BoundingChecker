@@ -25,7 +25,7 @@
             <Button Content="prev" Click="PrevFrame"></Button>
             <TextBox Width="40" HorizontalContentAlignment="Center">
                 <TextBox.Text>
-                    <Binding Path="Frame">
+                    <Binding Path="Frame" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <local:NumberRule Max="100000" Min="1" />
                         </Binding.ValidationRules>
@@ -34,7 +34,7 @@
             </TextBox>
             <Button Content="next" Click="NextFrame"></Button>
         </StackPanel>
-        <Grid DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top" Name="resultGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -49,18 +49,18 @@
             <TextBlock Grid.Column="1">Correct</TextBlock>
             <TextBlock Grid.Column="2">Miss</TextBlock>
             <TextBlock Grid.Column="3">Wrong</TextBlock>
-            <TextBlock Name="tbTotal" Grid.Row="1">1</TextBlock>
-            <TextBlock Name="tbCorrect" Grid.Row="1" Grid.Column="1">1</TextBlock>
-            <TextBlock Name="tbMiss" Grid.Row="1" Grid.Column="2">1</TextBlock>
-            <TextBlock Name="tbWrong" Grid.Row="1" Grid.Column="3">1</TextBlock>
+            <TextBlock Name="tbTotal" Grid.Row="1" Text="{Binding Path=Total}"></TextBlock>
+            <TextBlock Name="tbCorrect" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Correct}"></TextBlock>
+            <TextBlock Name="tbMiss" Grid.Row="1" Grid.Column="2" Text="{Binding Path=Miss}"></TextBlock>
+            <TextBlock Name="tbWrong" Grid.Row="1" Grid.Column="3" Text="{Binding Path=Wrong}"></TextBlock>
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image Name="InputImg" Stretch="UniformToFill" />
-            <Image Grid.Column="1" Name="OutputImg" Stretch="UniformToFill" />
+            <Image Name="InputImg" Stretch="Uniform" />
+            <Image Grid.Column="1" Name="OutputImg" Stretch="Uniform" />
         </Grid>
     </DockPanel>
 </Window>
